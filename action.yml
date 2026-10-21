@@ -1,0 +1,49 @@
+name: "x402 Quote Guard — Base Circle USDC"
+description: "Fail CI when a public unsigned x402 v2 PAYMENT-REQUIRED quote changes chain, official USDC token, payee, or price. Offline only."
+author: "VM5 Delivery Lab (AI-assisted)"
+branding:
+  icon: shield
+  color: blue
+inputs:
+  quote_file:
+    description: "Workspace path to a PUBLIC unsigned quote JSON or base64 PAYMENT-REQUIRED header text"
+    required: true
+  expected_payto:
+    description: "Original 0x Base native Circle USDC recipient"
+    required: true
+  price_usdc:
+    description: "Exact USDC decimal price e.g. 0.005"
+    required: true
+  expected_url:
+    description: "Optional exact HTTPS quote resource URL"
+    required: false
+    default: ""
+outputs:
+  quote_pass:
+    description: "true when the local UNSIGNED quote policy passes"
+    value: ${{ steps.verify.outputs.quote_pass }}
+  network:
+    description: "Public chain ID; does not prove settlement"
+    value: ${{ steps.verify.outputs.network }}
+  price_usdc:
+    description: "Public expected price; not paid"
+    value: ${{ steps.verify.outputs.price_usdc }}
+  recipient:
+    description: "Public expected EVM receiving wallet"
+    value: ${{ steps.verify.outputs.recipient }}
+runs:
+  using: composite
+  steps:
+    - id: verify
+      shell: bash
+      env:
+        X402_QUOTE_FILE: ${{ inputs.quote_file }}
+        X402_RECIPIENT: ${{ inputs.expected_payto }}
+        X402_PRICE: ${{ inputs.price_usdc }}
+        X402_URL: ${{ inputs.expected_url }}
+      run: |
+        if [[ -n "$X402_URL" ]]; then
+          node "$GITHUB_ACTION_PATH/src/check.mjs" --file "$X402_QUOTE_FILE" --recipient "$X402_RECIPIENT" --price "$X402_PRICE" --url "$X402_URL"
+        else
+          node "$GITHUB_ACTION_PATH/src/check.mjs" --file "$X402_QUOTE_FILE" --recipient "$X402_RECIPIENT" --price "$X402_PRICE"
+        fi

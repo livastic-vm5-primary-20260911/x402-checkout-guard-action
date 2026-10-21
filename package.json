@@ -1,0 +1,13 @@
+{
+  "name": "vm5-x402-checkout-guard-action",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Offline GitHub Action verifying Base native Circle USDC unsigned x402 v2 quotes; no payment.",
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

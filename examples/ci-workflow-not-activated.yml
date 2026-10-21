@@ -1,0 +1,35 @@
+name: offline-quote-policy
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Node version
+        run: node --version
+      - name: Offline unit tests
+        run: node --test test/*.test.mjs
+      - name: Local usage smoke test
+        run: |
+          node src/check.mjs --file fixtures/valid-vm5-csv-quote.json \
+            --recipient 0x6b01efA0705E91a7aca54271510bf9e594717f34 \
+            --price 0.005 \
+            --url https://vm5-openapi-x402.onrender.com/v1/csv-report
+      - name: GitHub composite action smoke
+        id: check
+        uses: ./
+        with:
+          quote_file: fixtures/valid-vm5-csv-quote.json
+          expected_payto: 0x6b01efA0705E91a7aca54271510bf9e594717f34
+          price_usdc: "0.005"
+          expected_url: https://vm5-openapi-x402.onrender.com/v1/csv-report
+      - name: Enforce verified unsigned quote status
+        env:
+          RESULT: ${{ steps.check.outputs.quote_pass }}
+        run: 'test "$RESULT" = "true"'
