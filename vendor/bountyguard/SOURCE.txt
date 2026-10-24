@@ -1,0 +1,6 @@
+Project: doomsday-network/bounty-guard
+Original tag: v1.1.0
+Original commit: c451f8e1b8b1f7f2ff4c542e20512ab88acf846e
+Source: https://raw.githubusercontent.com/doomsday-network/bounty-guard/c451f8e1b8b1f7f2ff4c542e20512ab88acf846e/bounty_guard.py
+Source SHA256: 4d1cf92a835f934c444f3d4750cb4c396f7063cae738a5fbebb16e4f75da7ba6
+License: MIT (separate LICENSE file)

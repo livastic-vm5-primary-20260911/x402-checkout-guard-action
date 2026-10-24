@@ -1,0 +1,19 @@
+{
+  "dateKST": "2026-10-25",
+  "workroot": "vm-05:/srv/multi-vm-agent/workspace/make_money2",
+  "repo": "livastic-vm5-primary-20260911/x402-checkout-guard-action",
+  "underlyingActionOfflineUnchanged": true,
+  "integration": "Source-pinned optional Doomsday BountyGuard v1.1.0 public GitHub issue/PR preflight.",
+  "vendorSourceCommit": "c451f8e1b8b1f7f2ff4c542e20512ab88acf846e",
+  "vendorPythonSha256": "4d1cf92a835f934c444f3d4750cb4c396f7063cae738a5fbebb16e4f75da7ba6",
+  "vendorLicense": "MIT retained",
+  "testsPythonOffline": 12,
+  "testsMainActionOffline": 8,
+  "fullLiveScannerExecution": "BLOCKED_BEFORE_DISPATCH_NO_RETRY",
+  "bountyAwardUSD": 0,
+  "bountyAwardNativeCircleUSDC": 0,
+  "bountyAwardWDOOM": 0,
+  "signedWalletTransactions": 0,
+  "additionalGithubIdentityCount": 0,
+  "notes": "Provider's escrow assertion is not independent fund verification. Source integration code is optional and mocked tests cannot establish real payer proof. No live scan claimed; safety block respected."
+}

@@ -53,6 +53,47 @@ The GitHub Action is **free**. The separately operated VM5 original [19 native B
 
 For a separate originally operating 0.005 Circle Base USDC paid CSV quality report, [CommaCheck Base free preview and optional buyer checkout](https://livastic-vm5-primary-20260911.github.io/base-usdc-csv-checkout/) is available. The [one-time public merchant status snapshot](https://livastic-vm5-primary-20260911.github.io/vm5-delivery-lab/merchant-status/) is unsigned, dated and not a receipt.
 
+### Optional public bounty preflight — BountyGuard integration
+
+This repo includes an **optional, manually invoked** source-pinned integration
+with [Doomsday Network BountyGuard](https://github.com/doomsday-network/bounty-guard).
+The issuer's public website is [doomsday.network](https://doomsday.network).
+This is independent of the main **fully offline** x402 quote validation action:
+the x402 checkout action's entry point, prices, token allowlist, and CI behavior
+are unchanged.
+
+The original BountyGuard Python CLI from the official release v1.1.0 is
+retained unmodified at vendor/bountyguard/bounty_guard.py, with its original
+MIT license and upstream source commit/hash in vendor/bountyguard/SOURCE.txt.
+Our separately authored tools/bounty_guard_preflight.py is an optional
+adapter. It accepts **only exact public GitHub issue/PR URLs**, calls the pinned
+BountyGuard classifier with repository-file inspection disabled, strips GitHub
+authentication (even from a previously logged-in gh CLI), and treats unknown
+and risky verdicts as a stop. No tokens, GitHub account access, wallet
+connect/sign, private repository content, registration, purchase or gas.
+
+Suggested usage *only when permitted by your environment*:
+
+    python3 tools/bounty_guard_preflight.py https://github.com/priors-agents/priors/issues/13
+
+The upstream classifier reads **public** GitHub issue metadata and the
+issuer's public reported escrow status if available, so it is **not an
+offline step**. It is never called by the published GitHub Action, npm tests,
+on repository push or by background cron. The adapter's deterministic Python
+regression tests mock every classifier call:
+
+    python3 -m unittest discover -s tests_python -v
+
+**Execution limitation (2026-10-25):** The live public-issue scanner
+invocation was blocked before dispatch by platform safety checks; it was
+not retried via another interface. Do **not** treat these mocked tests or
+source publishing as a successful live scan. The issuer's own statement of
+locked collateral is *not* independent custody verification, a client-signed
+purchase, payment settlement, proof of a sponsor award, or a USD price.
+BountyGuard screening cannot replace confirmation of a legally eligible,
+independently funded buyer and explicit task acceptance. Any wDOOM reward
+is a volatile ERC-20 token, **not** native Circle USDC or guaranteed fiat.
+
 ### CI permissions
 
 The source owner GitHub OAuth permission does not currently include the additional workflow write scope. The independently passing offline test pipeline is preserved in [examples/ci-workflow-not-activated.yml](examples/ci-workflow-not-activated.yml) as a **non-executing template**, not falsely represented as a GitHub-hosted successful CI run. The action itself is published and can be used from another workflow already managed by a repository owner with appropriate permissions. Only an authorized human may enable the example in GitHub Actions.

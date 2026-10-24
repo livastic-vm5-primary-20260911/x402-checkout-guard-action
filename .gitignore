@@ -6,3 +6,6 @@ coverage/
 dist/
 .accounts/
 *.secret
+__pycache__/
+*.pyc
+.pytest_cache/
